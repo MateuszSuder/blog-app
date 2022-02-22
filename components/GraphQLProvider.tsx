@@ -3,7 +3,7 @@ import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache} from "@apollo/cli
 import * as Realm from "realm-web";
 import {useEffect} from "react";
 
-const AuthProvider = ({children}) => {
+const GraphQLProvider = ({children}) => {
 	const {user, isLoading} = useUser();
 
 	const app = new Realm.App(process.env.NEXT_PUBLIC_APP_ID);
@@ -12,7 +12,6 @@ const AuthProvider = ({children}) => {
 		// If Auth0 authenticated
 		if(user) {
 			if(!app.currentUser || app.currentUser.providerType === "anon-user") {
-				console.log("XDDD");
 				const response = await fetch('/api/auth/realm');
 				return await response.text();
 			} else {
@@ -32,7 +31,7 @@ const AuthProvider = ({children}) => {
 	// Configure the ApolloClient to connect to your app's GraphQL endpoint
 	const client = new ApolloClient({
 		link: new HttpLink({
-			uri: process.env.GRAPHQL_URI,
+			uri: process.env.NEXT_PUBLIC_GRAPHQL_URI,
 			// We define a custom fetch handler for the Apollo client that lets us authenticate GraphQL requests.
 			// The function intercepts every Apollo HTTP request and adds an Authorization header with a valid
 			// access token before sending the request.
@@ -51,7 +50,6 @@ const AuthProvider = ({children}) => {
 				console.log(await getValidAccessToken());
 			})();
 		}
-
 	}, [isLoading])
 
 	return (
@@ -61,4 +59,4 @@ const AuthProvider = ({children}) => {
 	);
 };
 
-export default AuthProvider;
+export default GraphQLProvider;

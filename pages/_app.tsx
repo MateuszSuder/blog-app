@@ -1,13 +1,13 @@
 import React from 'react';
 import {getAccessToken, UserProvider} from '@auth0/nextjs-auth0';
-import AuthProvider from "../components/AuthProvider";
+import GraphQLProvider from "../components/GraphQLProvider";
 
 export default function App({ Component, pageProps }) {
 	return (
 		<UserProvider>
-			<AuthProvider>
+			<GraphQLProvider>
 				<Component {...pageProps} />
-			</AuthProvider>
+			</GraphQLProvider>
 		</UserProvider>
 	);
 }

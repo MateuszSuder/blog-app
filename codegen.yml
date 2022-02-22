@@ -1,0 +1,13 @@
+schema:
+  - my-api:
+      loader: ./codegen-loader.ts
+documents: ./requests/*.graphql
+generates:
+  ./requests/ts/types.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+  ./requests/schema.graphql:
+    plugins:
+      - schema-ast
